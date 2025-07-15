@@ -53,7 +53,7 @@ public class HoewonService {
 
 		int res = dao.setHoewonInput(vo);
 		if(res != 0) System.out.println("==> 회원가입완료!!!");
-		else System.out.println("==> 회원가입실패~~~");
+		else System.out.println("==> 회원가입실패~~~!!!");
 	}
 
 	// 개별 조회
