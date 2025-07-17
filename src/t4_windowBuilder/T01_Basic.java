@@ -66,51 +66,51 @@ public class T01_Basic {
 		
 		JLabel lblNewLabel = new JLabel("나이");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(12, 10, 152, 40);
+		lblNewLabel.setBounds(12, 219, 152, 40);
 		frame.getContentPane().add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("성명");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(12, 90, 152, 40);
+		lblNewLabel_1.setBounds(12, 84, 152, 40);
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("비밀번호");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setBounds(12, 168, 152, 40);
+		lblNewLabel_2.setBounds(12, 151, 152, 40);
 		frame.getContentPane().add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("아이디");
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3.setBounds(12, 242, 152, 40);
+		lblNewLabel_3.setBounds(12, 10, 152, 40);
 		frame.getContentPane().add(lblNewLabel_3);
 		
 		txtMid = new JTextField();
-		txtMid.setBounds(150, 248, 245, 30);
+		txtMid.setBounds(150, 16, 245, 30);
 		frame.getContentPane().add(txtMid);
 		txtMid.setColumns(10);
 		
 		txtPwd = new JPasswordField();
-		txtPwd.setBounds(150, 174, 245, 30);
+		txtPwd.setBounds(150, 157, 245, 30);
 		frame.getContentPane().add(txtPwd);
 		
 		txtName = new JTextField();
 		txtName.setColumns(10);
-		txtName.setBounds(150, 96, 245, 30);
+		txtName.setBounds(150, 90, 245, 30);
 		frame.getContentPane().add(txtName);
 		
 		txtAge = new JTextField();
 		txtAge.setText("0");
 		txtAge.setColumns(10);
-		txtAge.setBounds(150, 16, 245, 30);
+		txtAge.setBounds(150, 225, 245, 30);
 		frame.getContentPane().add(txtAge);
 		
 		JLabel lblNewLabel_3_1 = new JLabel("자기소개");
 		lblNewLabel_3_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3_1.setBounds(12, 292, 152, 40);
+		lblNewLabel_3_1.setBounds(12, 277, 152, 40);
 		frame.getContentPane().add(lblNewLabel_3_1);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(150, 303, 245, 102);
+		scrollPane.setBounds(150, 284, 245, 102);
 		frame.getContentPane().add(scrollPane);
 		
 		JTextArea txtContent = new JTextArea();
