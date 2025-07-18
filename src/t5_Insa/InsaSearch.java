@@ -89,6 +89,7 @@ public class InsaSearch {
 		
 		txtName = new JTextField();
 		txtName.setEditable(false);
+		txtName.setEnabled(false);
 		txtName.setFont(new Font("굴림", Font.PLAIN, 16));
 		txtName.setHorizontalAlignment(SwingConstants.CENTER);
 		txtName.setBounds(240, 45, 262, 42);
@@ -96,7 +97,6 @@ public class InsaSearch {
 		txtName.setColumns(10);
 		
 		txtAge = new JTextField();
-		txtAge.setEditable(false);
 		txtAge.setFont(new Font("굴림", Font.PLAIN, 16));
 		txtAge.setHorizontalAlignment(SwingConstants.CENTER);
 		txtAge.setColumns(10);
@@ -104,7 +104,6 @@ public class InsaSearch {
 		pn2.add(txtAge);
 		
 		JRadioButton rdMale = new JRadioButton("남 자");
-		rdMale.setEnabled(false);
 		buttonGroup.add(rdMale);
 		rdMale.setFont(new Font("굴림", Font.PLAIN, 16));
 		rdMale.setHorizontalAlignment(SwingConstants.CENTER);
@@ -112,7 +111,6 @@ public class InsaSearch {
 		pn2.add(rdMale);
 		
 		JRadioButton rdFemale = new JRadioButton("여 자");
-		rdFemale.setEnabled(false);
 		rdFemale.setSelected(true);
 		buttonGroup.add(rdFemale);
 		rdFemale.setFont(new Font("굴림", Font.PLAIN, 16));
@@ -177,14 +175,15 @@ public class InsaSearch {
 		frame.getContentPane().add(pn3);
 		pn3.setLayout(null);
 		
-		JButton btnInput = new JButton("수정하기");
+		JButton btnUpdate = new JButton("수정하기");
 	
-		btnInput.setBounds(95, 10, 126, 42);
-		pn3.add(btnInput);
+		btnUpdate.setBounds(95, 10, 126, 42);
+		pn3.add(btnUpdate);
 		
-		JButton btnReset = new JButton("삭제하기");
-		btnReset.setBounds(316, 10, 126, 42);
-		pn3.add(btnReset);
+		JButton btnDelete = new JButton("삭제하기");
+		
+		btnDelete.setBounds(316, 10, 126, 42);
+		pn3.add(btnDelete);
 		
 		JButton btnClose = new JButton("창 닫 기");
 		btnClose.setBounds(537, 10, 126, 42);
@@ -211,20 +210,35 @@ public class InsaSearch {
 		
 	// -------------------------------아래는 메소드--------------------------------------
 		
-		// 회원 가입버튼 마우스로 클릭시 수행
-		btnInput.addActionListener(new ActionListener() {
+		// 회원 자료 삭제처리
+		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String name = txtName.getText().trim();
+				String name = txtName.getText();
+				
+				int ans = JOptionPane.showConfirmDialog(frame, "회원 정보를 삭제하시겠습니까?", "회원 삭제창", JOptionPane.YES_NO_OPTION);
+				
+				int res = dao.setInsaDelete(name);
+				if (ans == 0) {
+					if (res != 0) {
+						JOptionPane.showMessageDialog(frame, "회원자료가 삭제 되었습니다.");
+						frame.dispose();
+						new InsaMain();
+					}
+					else JOptionPane.showMessageDialog(frame, "회원정보 삭제 실패");
+				}
+				else JOptionPane.showMessageDialog(frame, "회원정보 삭제 취소");
+			}
+		});
+		
+		// 회원 수정버튼 마우스로 클릭시 수행
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				String age = txtAge.getText().trim();
 				String gender = "";
 				String ipsail = cbYY.getSelectedItem()+"-"+cbMM.getSelectedItem()+"-"+cbDD.getSelectedItem();
 
 				// 유효성 검사
-				if (name.equals("")) {
-					JOptionPane.showMessageDialog(frame, "성명을 입력하세요");
-					txtName.requestFocus();
-				}
-				else if (!Pattern.matches("^[0-9]+$", age)) {
+				if (!Pattern.matches("^[0-9]+$", age)) {
 					JOptionPane.showMessageDialog(frame, "나이는 숫자로 입력하세요");
 					txtAge.requestFocus();
 				}
@@ -232,26 +246,21 @@ public class InsaSearch {
 					if (rdMale.isSelected()) gender = "남자";
 					else gender = "여자";
 					
-					// 회원명 중복처리
-					
 					// 회원명 중복처리 완료 후 앞에서 기록한 내용을 vo에 담아서 DB에 저장한다.
 					vo = new InsaVO();
-					vo.setName(name);
+					vo.setName(txtName.getText());
 					vo.setAge(Integer.parseInt(age));
 					vo.setGender(gender);
 					vo.setIpsail(ipsail);
 					
-					res = dao.setInsaInput(vo);
+					res = dao.setInsaUpdate(vo);
 					
 					if (res != 0) {
-						JOptionPane.showMessageDialog(frame, "회원가입 되었습니다.");
-						frame.dispose();
-						new InsaMain();
+						JOptionPane.showMessageDialog(frame, "회원정보가 수정 되었습니다.");
+//						frame.dispose();
+//						new InsaMain();
 					}
-					else {
-						JOptionPane.showMessageDialog(frame, "회원가입 실패");
-						txtName.requestFocus();
-					}
+					else JOptionPane.showMessageDialog(frame, "회원정보 수정 실패");
 				}
 			}
 		});

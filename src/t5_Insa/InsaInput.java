@@ -184,6 +184,13 @@ public class InsaInput {
 		btnClose.setBounds(537, 10, 126, 42);
 		pn3.add(btnClose);
 		
+		// 오늘 날짜를 가입화면의 날짜에 표시하기
+		InsaService service = new InsaService();
+	 	vo = service.getCurrentDate();
+		cbYY.setSelectedItem(vo.getCbYY());
+		cbMM.setSelectedItem(vo.getCbMM());
+		cbDD.setSelectedItem(vo.getCbDD());
+	 	
 		frame.setVisible(true);
 		
 	// -------------------------------아래는 메소드--------------------------------------

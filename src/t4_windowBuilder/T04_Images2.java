@@ -13,17 +13,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class t04_Images {
+public class T04_Images2 {
 	JLabel lblImg1, lblImg2, lblImg3, lblImg4, lblMessage;
 	int img1Cnt = 0, img2Cnt = 0, img3Cnt = 0, img4Cnt = 0;
 
 	private JFrame frame;
 
 	public static void main(String[] args) {
-		new t04_Images();
+		new T04_Images2();
 	}
 
-	public t04_Images() {
+	public T04_Images2() {
 		initialize();
 	}
 
@@ -84,22 +84,22 @@ public class t04_Images {
 		pn2.setLayout(null);
 
 		lblImg1 = new JLabel("New label");
-		lblImg1.setIcon(new ImageIcon(t04_Images.class.getResource("/t4_windowBuilder/images/amur-tiger-4155922_1280.jpg")));
+		lblImg1.setIcon(new ImageIcon(T04_Images2.class.getResource("/t4_windowBuilder/images/amur-tiger-4155922_1280.jpg")));
 		lblImg1.setBounds(22, 10, 212, 365);
 		pn2.add(lblImg1);
 
 		lblImg2 = new JLabel("New label");
-		lblImg2.setIcon(new ImageIcon(t04_Images.class.getResource("/t4_windowBuilder/images/deer-1367217_1280.jpg")));
+		lblImg2.setIcon(new ImageIcon(T04_Images2.class.getResource("/t4_windowBuilder/images/deer-1367217_1280.jpg")));
 		lblImg2.setBounds(256, 10, 212, 365);
 		pn2.add(lblImg2);
 
 		lblImg3 = new JLabel("New label");
-		lblImg3.setIcon(new ImageIcon(t04_Images.class.getResource("/t4_windowBuilder/images/pets-3715733_1280.jpg")));
+		lblImg3.setIcon(new ImageIcon(T04_Images2.class.getResource("/t4_windowBuilder/images/pets-3715733_1280.jpg")));
 		lblImg3.setBounds(490, 10, 212, 365);
 		pn2.add(lblImg3);
 
 		lblImg4 = new JLabel("New label");
-		lblImg4.setIcon(new ImageIcon(t04_Images.class.getResource("/t4_windowBuilder/images/wolf-142173_1280.jpg")));
+		lblImg4.setIcon(new ImageIcon(T04_Images2.class.getResource("/t4_windowBuilder/images/wolf-142173_1280.jpg")));
 		lblImg4.setBounds(724, 10, 212, 365);
 		pn2.add(lblImg4);
 
@@ -122,10 +122,8 @@ public class t04_Images {
 		btn1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				allClose();
 				lblImg1.setVisible(true);
-				lblImg2.setVisible(false);
-				lblImg3.setVisible(false);
-				lblImg4.setVisible(false);
 				
 				img1Cnt++;
 				displayCount();
@@ -136,10 +134,8 @@ public class t04_Images {
 		btn2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				lblImg1.setVisible(false);
+				allClose();
 				lblImg2.setVisible(true);
-				lblImg3.setVisible(false);
-				lblImg4.setVisible(false);
 				
 				img2Cnt++;
 				displayCount();
@@ -150,11 +146,9 @@ public class t04_Images {
 		btn3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				lblImg1.setVisible(false);
-				lblImg2.setVisible(false);
+				allClose();
 				lblImg3.setVisible(true);
-				lblImg4.setVisible(false);
-				
+
 				img3Cnt++;
 				displayCount();
 			}
@@ -164,9 +158,7 @@ public class t04_Images {
 		btn4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				lblImg1.setVisible(false);
-				lblImg2.setVisible(false);
-				lblImg3.setVisible(false);
+				allClose();
 				lblImg4.setVisible(true);
 				
 				img4Cnt++;
@@ -180,33 +172,25 @@ public class t04_Images {
 				int rand = (int) (Math.random() * 4) + 1;
 
 				if (rand == 1) {
+					allClose();
 					lblImg1.setVisible(true);
-					lblImg2.setVisible(false);
-					lblImg3.setVisible(false);
-					lblImg4.setVisible(false);
 					
 					img1Cnt++;
 					displayCount();
 				} else if (rand == 2) {
-					lblImg1.setVisible(false);
+					allClose();
 					lblImg2.setVisible(true);
-					lblImg3.setVisible(false);
-					lblImg4.setVisible(false);
 					
 					img2Cnt++;
 					displayCount();
 				} else if (rand == 3) {
-					lblImg1.setVisible(false);
-					lblImg2.setVisible(false);
+					allClose();
 					lblImg3.setVisible(true);
-					lblImg4.setVisible(false);
 					
 					img3Cnt++;
 					displayCount();
 				} else if (rand == 4) {
-					lblImg1.setVisible(false);
-					lblImg2.setVisible(false);
-					lblImg3.setVisible(false);
+					allClose();
 					lblImg4.setVisible(true);
 					
 					img4Cnt++;

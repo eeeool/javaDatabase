@@ -70,9 +70,10 @@ public class InsaMain {
 		btnSearch.setBounds(141, 10, 117, 42);
 		pn3.add(btnSearch);
 		
-		JButton btnNewButton_2 = new JButton("전체조회");
-		btnNewButton_2.setBounds(270, 10, 117, 42);
-		pn3.add(btnNewButton_2);
+		JButton InsaList = new JButton("전체조회");
+		
+		InsaList.setBounds(270, 10, 117, 42);
+		pn3.add(InsaList);
 		
 		JButton btnExit = new JButton("종료");
 		btnExit.setBounds(631, 10, 117, 42);
@@ -81,6 +82,14 @@ public class InsaMain {
 		frame.setVisible(true);
 		
 // -------------------------------아래는 메소드--------------------------------------
+		
+		// 전체 조회
+		InsaList.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				new InsaList();
+			}
+		});
 		
 		// 회원 개별 조회버튼을 마우스 클릭 실행
 		btnSearch.addActionListener(new ActionListener() {

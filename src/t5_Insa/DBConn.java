@@ -12,7 +12,7 @@ public class DBConn {
 	public PreparedStatement pstmt = null;
 	public ResultSet rs = null;
 	
-	String sql = "";
+	public String sql = "";
 	
 	public DBConn() {
 		String url = "jdbc:mysql://localhost:3306/springgroup";
