@@ -1,27 +1,41 @@
 package t6ex_Kiosk;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URL;
+import java.util.Vector;
+
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.ImageIcon;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
-import java.awt.Color;
-import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class KioskMenuOrder {
-
+	private KioskDAO dao = new KioskDAO();
 	private JFrame frame;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JTextField textField;
+	private JTextField textPrice;
+	private JPanel menuListPanel;
+	private JButton btnMenu;
+	private JTextField textFieldPrice;
+    private JTextArea textAreaDetail;
+    private JLabel lblImage;
+    private JRadioButton rdbtnSingle, rdbtnSet;
+    
+    private String currentProduct = "";
+    private String currentImage = "";
+    private int currentPrice = 0;
 
 	public static void main(String[] args) {
 		new KioskMenuOrder();
@@ -29,6 +43,7 @@ public class KioskMenuOrder {
 
 	public KioskMenuOrder() {
 		initialize();
+		menuList();
 	}
 
 	private void initialize() {
@@ -45,15 +60,15 @@ public class KioskMenuOrder {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setIcon(new ImageIcon(KioskMenuOrder.class.getResource("/t6ex_Kiosk/Images/크리미할라피뇨파퍼세트.jpg")));
-		lblNewLabel.setBounds(12, 11, 269, 269);
-		panel.add(lblNewLabel);
+		menuListPanel = new JPanel();
+		menuListPanel.setLayout(null);
+		menuListPanel.setBounds(560, 91, 210, 379);
+		menuListPanel.setBackground(Color.LIGHT_GRAY);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(410, 11, 2, 2);
+		JScrollPane scrollPane = new JScrollPane(menuListPanel);
+		scrollPane.setBounds(560, 91, 210, 379);
 		panel.add(scrollPane);
+		frame.getContentPane().add(menuListPanel);
 		
 		JButton btnOrder = new JButton("주문하기");
 	
@@ -66,46 +81,40 @@ public class KioskMenuOrder {
 		rdbtnNewRadioButton.setBounds(293, 11, 60, 23);
 		panel.add(rdbtnNewRadioButton);
 		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("세트");
-		buttonGroup.add(rdbtnNewRadioButton_1);
-		rdbtnNewRadioButton_1.setHorizontalAlignment(SwingConstants.CENTER);
-		rdbtnNewRadioButton_1.setBounds(357, 11, 60, 23);
-		panel.add(rdbtnNewRadioButton_1);
+		lblImage = new JLabel();
+		lblImage.setIcon(null);
+		lblImage.setBounds(12, 11, 269, 269);
+		panel.add(lblImage);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setText("할라피뇨보다 더 귀여운 매운맛");
-		textArea.setEditable(false);
-		textArea.setBounds(293, 139, 209, 141);
-		panel.add(textArea);
+		textAreaDetail = new JTextArea();
+		textAreaDetail.setEditable(false);
+		textAreaDetail.setBounds(293, 139, 209, 141);
+		panel.add(textAreaDetail);
 		
-		textField = new JTextField();
-		textField.setHorizontalAlignment(SwingConstants.CENTER);
-		textField.setBackground(new Color(255, 255, 255));
-		textField.setEditable(false);
-		textField.setText("0");
-		textField.setBounds(357, 40, 60, 30);
-		panel.add(textField);
-		textField.setColumns(10);
+		textPrice = new JTextField();
+		textPrice.setHorizontalAlignment(SwingConstants.CENTER);
+		textPrice.setBackground(new Color(255, 255, 255));
+		textPrice.setEditable(false);
+		textPrice.setText("0");
+		textPrice.setBounds(293, 40, 82, 30);
+		panel.add(textPrice);
+		textPrice.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("가격");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(293, 40, 57, 30);
-		panel.add(lblNewLabel_1);
-		
-		JLabel lblNewLabel_1_1 = new JLabel("원");
-		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1_1.setBounds(418, 40, 18, 29);
-		panel.add(lblNewLabel_1_1);
+		textFieldPrice = new JTextField("원");
+		textFieldPrice.setEditable(false);
+		textFieldPrice.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldPrice.setBounds(374, 40, 38, 30);
+		panel.add(textFieldPrice);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(12, 489, 508, 62);
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
-		JButton btnExit = new JButton("메인");
+		JButton btnMain = new JButton("메인");
 		
-		btnExit.setBounds(12, 10, 131, 42);
-		panel_1.add(btnExit);
+		btnMain.setBounds(12, 10, 131, 42);
+		panel_1.add(btnMain);
 		
 		JButton btnOrderCheck = new JButton("주문 확인");
 	
@@ -125,8 +134,7 @@ public class KioskMenuOrder {
 		
 		frame.setVisible(true);
 		
-	//------------------------위쪽은 디자인 , 아래쪽은 메소드------------------------------------------------------
-		
+	//------------------------위쪽은 디자인 , 아래쪽은 메소드------------------------------------------------------		
 		// 주문 확인
 		btnOrderCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -138,9 +146,23 @@ public class KioskMenuOrder {
 		// 주문하기
 		btnOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int ans = JOptionPane.showConfirmDialog(frame, "제품을 주문 하시겠습니까?", "제품 주문", JOptionPane.YES_NO_OPTION);
+				if (currentProduct.isEmpty()) {
+					JOptionPane.showMessageDialog(frame, "주문할 메뉴를 선택하세요.");
+					return;
+				}
+			 
+				String part = rdbtnSingle.isSelected() ? "단품" : rdbtnSet.isSelected() ? "세트" : "";
+				if (part.isEmpty()) {
+					JOptionPane.showMessageDialog(frame, "옵션을 선택하세요 (단품/세트)");
+					return;
+				}
 				
-				if (ans == 0) {
+				int ans = JOptionPane.showConfirmDialog(frame, "제품을 주문 하시겠습니까?", "제품 주문", JOptionPane.YES_NO_OPTION);
+				if (ans == JOptionPane.YES_OPTION) {
+					int res = dao.setMenuOrder(currentProduct, part, currentPrice);
+				}
+									
+				if (ans > 0) {
 					JOptionPane.showMessageDialog(frame, "제품을 주문했습니다.", "제품 주문", JOptionPane.INFORMATION_MESSAGE);					
 				}
 				else {
@@ -149,17 +171,62 @@ public class KioskMenuOrder {
 			}
 		});
 		
-		// 나가기
-		btnExit.addActionListener(new ActionListener() {
+		// 메인으로 이동
+		btnMain.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int ans = JOptionPane.showConfirmDialog(frame, "주문 주문을 취소하시겠습니까?", "제품 주문", JOptionPane.YES_NO_OPTION);
 				
 				if (ans == 0) {
-					JOptionPane.showMessageDialog(frame, "제품 주문을 취소하였습니다.", "제품 주문", JOptionPane.OK_CANCEL_OPTION);
+					JOptionPane.showMessageDialog(frame, "제품 주문을 취소하였습니다.", "제품 주문", JOptionPane.INFORMATION_MESSAGE);
 					frame.dispose();
 					new KioskMain();
 				}
 			}
 		});
+	}
+	
+	// 메뉴 리스트
+	private void menuList() {
+		Vector menuList = dao.getAllMenuList();
+		menuListPanel.removeAll();
+
+		int y = 10;
+		for (int i = 0; i < menuList.size(); i++) {
+			Vector menu = (Vector) menuList.get(i);
+			final String product = (String) menu.get(2);
+			final String detail = (String) menu.get(3);
+			final String image = (String) menu.get(4);
+			final int price = (int) menu.get(7);
+			
+			final String imagePath = "/images/" + image;
+
+			btnMenu = new JButton(product);
+			btnMenu.setBounds(10, y, 200, 40);
+			menuListPanel.add(btnMenu);
+			y += 50;
+			
+			URL imageUrl = KioskMenuOrder.class.getResource(imagePath);
+
+			if (imageUrl != null) {
+			    lblImage.setIcon(new ImageIcon(imageUrl));
+			} else {
+			    System.out.println("이미지 경로 오류: " + imagePath);
+			    lblImage.setIcon(null);
+			}
+
+			btnMenu.addActionListener(e -> {
+				lblImage.setIcon(new ImageIcon(KioskMenuOrder.class.getResource(imagePath)));
+				textAreaDetail.setText(detail);
+				textFieldPrice.setText(String.valueOf(price));
+				currentProduct = product;
+				currentImage = image;
+				currentPrice = price;
+				buttonGroup.clearSelection();
+			});
+		}
+
+		menuListPanel.revalidate();
+		menuListPanel.repaint();
+		menuListPanel.setPreferredSize(new Dimension(200, menuList.size() * 50));
 	}
 }

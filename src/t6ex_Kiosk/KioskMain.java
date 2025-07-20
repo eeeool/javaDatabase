@@ -41,7 +41,7 @@ public class KioskMain {
 		frame.getContentPane().add(lblLogo);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(KioskMain.class.getResource("/t6ex_Kiosk/Images/burgerking2.png")));
+		lblNewLabel.setIcon(new ImageIcon(KioskMain.class.getResource("")));
 		lblNewLabel.setBounds(66, 80, 250, 389);
 		frame.getContentPane().add(lblNewLabel);
 		

@@ -11,6 +11,8 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings({"unchecked", "rawtypes", "unused"})
 public class KioskOrderCheck {
@@ -54,34 +56,32 @@ public class KioskOrderCheck {
 		frame.getContentPane().add(pn2);
 		pn2.setLayout(null);
 		
-		
-		
 		JPanel pn3 = new JPanel();
 		pn3.setBounds(12, 479, 760, 72);
 		frame.getContentPane().add(pn3);
 		pn3.setLayout(null);
 		
-		JButton btnNewButton = new JButton("메인");
-		btnNewButton.setBounds(12, 10, 116, 52);
-		pn3.add(btnNewButton);
+		JButton btnMainMove = new JButton("메인");
 		
-		JButton btnNewButton_1 = new JButton("상품 주문");
-		btnNewButton_1.setBounds(140, 10, 116, 52);
-		pn3.add(btnNewButton_1);
+		btnMainMove.setBounds(12, 10, 116, 52);
+		pn3.add(btnMainMove);
+		
+		JButton btnOrder = new JButton("상품 주문");
+	
+		btnOrder.setBounds(140, 10, 116, 52);
+		pn3.add(btnOrder);
 		
 		// table 
 		// Vector에 저장
 		col = new Vector();
-		col.add("번호");
-		col.add("상품분류");
+		col.add("주문번호");
 		col.add("상품명");
-		col.add("간단설명");
-		col.add("상세설명");
-		col.add("칼로리");
+		col.add("옵션");
 		col.add("가격");
+		col.add("주문시간");
 		
 		// 데이터를 Vector로 준비 
-		vData = dao.getMenuList();
+		vData = dao.getOrderList();
 		
 		// 'vData'와 'col'을 DefaultTableModel 객체 생성시 할당
 		dtm = new DefaultTableModel(vData, col);
@@ -90,12 +90,30 @@ public class KioskOrderCheck {
 		table = new JTable(dtm);
 		
 		// 자료가 담긴 JTable을 JScrollPane 객체 생성시에 담아준다
-		JScrollPane scrollPane = new JScrollPane();
+		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(12, 10, 736, 375);
 		pn2.add(scrollPane);
 
 		scrollPane.setViewportView(table);
 		
 		frame.setVisible(true);
+		
+		//------------------------위쪽은 디자인 , 아래쪽은 메소드------------------------------------------------------
+		
+		// 메인 이동
+		btnMainMove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				new KioskMain();
+			}
+		});
+		
+		// 상품주문 이동
+		btnOrder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				new KioskMenuOrder();
+			}
+		});
 	}
 }

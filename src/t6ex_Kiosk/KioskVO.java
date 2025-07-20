@@ -2,8 +2,27 @@ package t6ex_Kiosk;
 
 public class KioskVO {
 	private String part, product, detail, content, image;
-	private int calorie, price;
+	private int idx, calorie, price;
 	
+	public KioskVO() {}
+	
+	public KioskVO(int idx, String part, String product, String detail, String content, int calorie, String image, int price) {
+        this.idx = idx;
+        this.part = part;
+        this.product = product;
+        this.detail = detail;
+        this.content = content;
+        this.calorie = calorie;
+        this.image = image;
+        this.price = price;
+    }
+	
+	public int getIdx() {
+		return idx;
+	}
+	public void setIdx(int idx) {
+		this.idx = idx;
+	}
 	public String getPart() {
 		return part;
 	}
@@ -49,7 +68,6 @@ public class KioskVO {
 	
 	@Override
 	public String toString() {
-		return "KioskVO [part=" + part + ", product=" + product + ", detail=" + detail + ", content=" + content + ", image="
-				+ image + ", calorie=" + calorie + ", price=" + price + "]";
+		return product;
 	}
 }

@@ -22,6 +22,8 @@ import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class KioskMenuInput {
+	private String imageFileName = null;
+	private JFileChooser chooser;
 	private KioskDAO dao = new KioskDAO();
 	private KioskVO vo = new KioskVO();
 	private int res = 0;
@@ -144,7 +146,7 @@ public class KioskMenuInput {
 		btnImage.setBounds(158, 391, 316, 31);
 		pn1_1.add(btnImage);
 		
-		JLabel lblImage = new JLabel("상품 이미지가 표시됩니다.");
+		JLabel lblImage = new JLabel("");
 		lblImage.setHorizontalAlignment(SwingConstants.CENTER);
 		lblImage.setIcon(null);
 		lblImage.setOpaque(true);
@@ -176,7 +178,7 @@ public class KioskMenuInput {
 		// 이미지 등록
 		btnImage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser chooser = new JFileChooser();
+				chooser = new JFileChooser();
 				
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & GIF & PNG Images", "jpg", "gif", "png");
 				chooser.setFileFilter(filter);
@@ -187,7 +189,11 @@ public class KioskMenuInput {
 					JOptionPane.showMessageDialog(frame, "파일을 선택해 주세요.", "경고", JOptionPane.WARNING_MESSAGE);
 				}
 				else {
-					String filePath = chooser.getSelectedFile().getPath();
+					String filePath = chooser.getSelectedFile().getAbsolutePath();
+					String fileName = chooser.getSelectedFile().getName();
+													
+					imageFileName = fileName;
+					vo.setImage(fileName);
 					
 					lblImage.setIcon(new ImageIcon(filePath));
 				}
@@ -202,23 +208,32 @@ public class KioskMenuInput {
 				String detail = txtDetail.getText().trim();
 				String content = txtContent.getText().trim();
 				String calorie = txtCalorie.getText().trim();
-				//String image = btnImage.getIcon().toString();
-				String image = lblImage.getText().toString();
+				String image = imageFileName;
 				String price = txtPrice.getText().trim();
 				
 				if (part.equals("")) {
 					JOptionPane.showMessageDialog(frame, "분류를 선택하세요");
+					return;
 				} 
-				else if (product.equals("")) {
+				if (product.equals("")) {
 					JOptionPane.showMessageDialog(frame, "제품명을 입력하세요");
+					return;
 				}
-				else if (detail.equals("")) {
+				if (detail.equals("")) {
 					JOptionPane.showMessageDialog(frame, "간단 설명을 입력하세요");
+					return;
 				}
-				else if (image.equals("")) {
+				if (image == null || image.equals("")) {
 					JOptionPane.showMessageDialog(frame, "이미지를 등록하세요");
-				} else if (!Pattern.matches("^[0-9]+$", price)) {
+					return;
+				}
+				if (!Pattern.matches("^[0-9]+$", price)) {
 					JOptionPane.showMessageDialog(frame, "가격은 숫자로 입력하세요");
+					return;
+				}
+				if (!Pattern.matches("^[0-9]+$", calorie)) {
+				    JOptionPane.showMessageDialog(frame, "칼로리는 숫자로 입력하세요");
+				    return;
 				}
 				
 				vo = new KioskVO();
@@ -229,18 +244,21 @@ public class KioskMenuInput {
 				vo.setCalorie(Integer.parseInt(calorie));
 				vo.setImage(image);
 				vo.setPrice(Integer.parseInt(price));
-				
-				res = dao.setMenuInput(vo);
-				
+						
 				int ans = JOptionPane.showConfirmDialog(frame, "제품을 등록하시겠습니까?", "제품 등록", JOptionPane.YES_NO_OPTION);
 				
-				if (ans != 0)  {
+				if (ans != JOptionPane.YES_OPTION) {
+					return;
+				}
+				
+				res = dao.setMenuInput(vo);
+				if (res > 0) {
 					JOptionPane.showMessageDialog(frame, "제품을 등록했습니다.", "제품 등록", JOptionPane.INFORMATION_MESSAGE);
 					frame.dispose();
 					new KioskMain();
 				}
 				else {
-					JOptionPane.showMessageDialog(frame, "제품 등록에 실패했습니다.", "제품 등록", JOptionPane.YES_NO_CANCEL_OPTION);
+					JOptionPane.showMessageDialog(frame, "제품 등록에 실패했습니다.", "제품 등록", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
