@@ -189,7 +189,7 @@ public class KioskMenuInput {
 					JOptionPane.showMessageDialog(frame, "파일을 선택해 주세요.", "경고", JOptionPane.WARNING_MESSAGE);
 				}
 				else {
-					String filePath = chooser.getSelectedFile().getAbsolutePath();
+					String filePath = chooser.getSelectedFile().getPath();
 					String fileName = chooser.getSelectedFile().getName();
 													
 					imageFileName = fileName;
